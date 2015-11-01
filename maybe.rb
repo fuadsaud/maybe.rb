@@ -1,45 +1,41 @@
-class Maybe
-  private_class_method :new
+module Maybe
+  class Just
+    attr_accessor :value
 
-  def self.Just(value)
-    new(value)
-  end
+    private :value=
 
-  attr_accessor :value
-
-  private :value=
-
-  def >=(&block)
-    if nothing?
-      self
-    else
-      just(block.call(self.value))
+    def initialize(value)
+      self.value = value
     end
-  end
 
-  def to_s
-    if nothing?
-      'Nothing'
-    else
+    def >=(&block)
+      self.class.new(block.call(self.value))
+    end
+
+    def to_s
       "Just(#{value.inspect})"
     end
+
+    alias_method :inspect, :to_s
   end
 
-  alias_method :inspect, :to_s
+  class Nothing
+    def >=(&block)
+      self
+    end
 
-  private
+    def to_s
+      'Nothing'
+    end
 
-  def initialize(value)
-    self.value = value.freeze
+    alias_method :inspect, :to_s
   end
 
-  def nothing?
-    self.value.nil?
-  end
+  module Conversions
+    def self.Just(value)
+      Maybe::Just.new(value).freeze
+    end
 
-  def just(value)
-    self.class.Just(value)
+    Nothing = Maybe::Nothing.new
   end
-
-  Nothing = new(nil)
 end
