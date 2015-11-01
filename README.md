@@ -1,6 +1,6 @@
 # Maybe for Ruby
 
 ```ruby
-Maybe::NOTHING.>=(&:upcase)           # => Maybe::NOTHING
-Maybe::Just('hey there').>=(&:upcase) # => Maybe::Just('HEY THERE')
+Maybe::Nothing.>=(&:upcase)           # => NOTHING
+Maybe::Just('hey there').>=(&:upcase) # => Just('HEY THERE')
 ```

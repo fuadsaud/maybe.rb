@@ -17,6 +17,16 @@ class Maybe
     end
   end
 
+  def to_s
+    if nothing?
+      'Nothing'
+    else
+      "Just(#{value.inspect})"
+    end
+  end
+
+  alias_method :inspect, :to_s
+
   private
 
   def initialize(value)
@@ -31,5 +41,5 @@ class Maybe
     self.class.Just(value)
   end
 
-  NOTHING = new(nil)
+  Nothing = new(nil)
 end
